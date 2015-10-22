@@ -43,7 +43,7 @@ check_hosts(){
         destFile="${1}.hosts"
         #scp -o ConnectTimeout=5 -q "${1}:/etc/hosts" $destFile
 	load_file_r ${1} '/etc/hosts' $destFile
-        if [ -e $f ];then
+        if [ -e $destFile ];then
                 python cmphost.py $2 $destFile
                 rm -rf $destFile
         else
