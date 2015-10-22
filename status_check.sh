@@ -35,11 +35,14 @@ load_file_r(){
 }
 
 command_r(){
+	# $1 remote host
+	# $2 command to execute
 	ssh -o ConnectTimeout=5 -q $1 $2 < /dev/null
 }
 
 check_hosts(){
         #get remote hosts file to local
+	# $1 remote host
         destFile="${1}.hosts"
         #scp -o ConnectTimeout=5 -q "${1}:/etc/hosts" $destFile
 	load_file_r ${1} '/etc/hosts' $destFile
@@ -52,6 +55,7 @@ check_hosts(){
 }
 
 check_time_sync(){
+	# $1 remote host
 	lclTime=`date +%s`
 	# redirect ssh input to /dev/null, not disturbe the while loop
 	rmTime=`ssh ${1}  'date +%s' < /dev/null`
@@ -66,6 +70,7 @@ check_time_sync(){
 }
 
 check_coprocessor(){
+	# $1 remote host
 	#load hbase-site.xml
 	siteFile="hbase-site.xml"
 	load_file_r $1 "$HBASE_HOME/conf/$siteFile" $siteFile
@@ -90,6 +95,7 @@ check_coprocessor(){
 
 
 hdfs_ls(){
+	# $1 directory to show
 	$HADOOP_HOME/bin/hadoop fs -ls $1 
 }
 
