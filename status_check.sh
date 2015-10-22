@@ -57,7 +57,8 @@ check_time_sync(){
 	rmTime=`ssh ${1}  'date +%s' < /dev/null`
 	behind=0
 	let 'behind = lclTime - rmTime'
-	echo "TIME:$behind seconds behind the $MASTER."
+	behind=${behind#-}
+	echo "TIME:$behind seconds different with the $MASTER."
 	if [ $behind -gt 30 ];then
 		echo "ERROR: the max allowed diffence of time between cluster members is 30 seconds. 
 	change time of ${1} manaully or use ntp."
