@@ -4,6 +4,7 @@ import sys
 import logging
 import re
 import xml.etree.ElementTree as ET
+import config
 
 if(len(sys.argv) < 2):
 	print 'usage: checkCoprocessor.py <src hosts file> <target hosts file>'
@@ -21,4 +22,5 @@ for prop in root:
 		classes=re.split('\s*,\s*', prop[1].text)
 		break
 
-print 'find {0} coprocessors: {1}'.format(len(classes), classes)
+#print 'find {0} coprocessors: {1}'.format(len(classes), classes)
+print config.coprocessors
