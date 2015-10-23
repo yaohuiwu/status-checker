@@ -28,7 +28,11 @@ for k in cfgMap.keys():
 		logging.error('ip host map %s -> %s not found in %s', k, cfgMap[k], destFile)
 		errorCount+=1
 
+guessHost='localhost'
+if(destFile.endswith('.hosts')):
+	guessHost=destFile[0:destFile.index('.hosts')]
+
 if(errorCount == 0):
-	log.info('HOSTS: %s ok', destFile)
+	log.info('host file on %s : ok', guessHost)
 else:
-	log.error('error in %s', destFile)
+	log.error('host file on %s : error', guessHost)
