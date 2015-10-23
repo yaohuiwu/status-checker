@@ -96,7 +96,7 @@ check_coprocessor(){
 
 hdfs_ls(){
 	# $1 directory to show
-	$HADOOP_HOME/bin/hadoop fs -ls $1 
+	$HADOOP_HOME/bin/hadoop fs -ls $1 > /dev/null
 }
 
 check_hadoop(){
@@ -130,10 +130,21 @@ check_hbase(){
 	    return 0 
 	}
 
-	exec "$HBASE_HOME/bin/hbase" shell <<EOF
+	houtFile='hb.out'
+	if [ 1 -eq 1  ];then
+	$HBASE_HOME/bin/hbase shell <<EOF
 	status 
 	list
 EOF
+	fi >  $houtFile 
+	if [ -e $houtFile ];then
+		status_lines=`sed -n '/servers/p' $houtFile`
+		table_lines=`sed -n '/TABLE/,/row(s)/p' $houtFile`
+		#echo "$status_lines"
+		#echo "$table_lines"
+		python checkTable.py "$status_lines" "$table_lines"
+		rm -f $houtFile
+	fi
 }
 
 # requirement checking
