@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
 import sys
-import logging
 import re
 import xml.etree.ElementTree as ET
 import config
+from config import log
 
 if(len(sys.argv) < 2):
 	print 'usage: checkCoprocessor.py <src hosts file> <target hosts file>'
@@ -22,5 +22,9 @@ for prop in root:
 		classes=re.split('\s*,\s*', prop[1].text)
 		break
 
-#print 'find {0} coprocessors: {1}'.format(len(classes), classes)
-print config.coprocessors
+diffSet=set(config.coprocessors).difference(set(classes))
+if(len(diffSet) == 0):
+	log.info('Coprocessor: ok')
+else:
+	log.error('Coprocessor: not ok, different with config.ini: %s', diffSet)
+	

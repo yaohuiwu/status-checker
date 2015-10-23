@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
 import sys
-import logging
 import re
 import fileUtil
+from config import log
 
 if(len(sys.argv) < 3):
 	print 'usage: host.py <src hosts file> <target hosts file>'
@@ -23,13 +23,12 @@ errorCount=0
 
 for k in cfgMap.keys():
 	if(k in hMap and cfgMap[k] == hMap[k]):
-		#print 'ok ' + k + '->' + cfgMap[k]	
-		print 'ok'
+		continue
 	else:
 		logging.error('ip host map %s -> %s not found in %s', k, cfgMap[k], destFile)
 		errorCount+=1
 
 if(errorCount == 0):
-	print 'HOSTS: ' + destFile + ' is ok'
+	log.info('HOSTS: %s ok', destFile)
 else:
-	print 'error in ' + destFile 
+	log.error('error in %s', destFile)
