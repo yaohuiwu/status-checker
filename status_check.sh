@@ -19,6 +19,8 @@ if [ ! -e $cfg ];then
 	echo "file $cfg not exists."
 	exit 1
 fi
+# pre precess : remove all empty or blank lines
+sed -i '/^\s*$/d' $cfg
 
 MASTER=`head -1 $cfg | awk '{print $2}'`
 COP_JAR='coprocessor-1.0-SNAPSHOT.jar'

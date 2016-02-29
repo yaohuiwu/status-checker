@@ -13,6 +13,9 @@ if [ ! -e $cfg ];then
 	exit 1
 fi
 
+# pre precess : remove all empty or blank lines
+sed -i '/^\s*$/d' $cfg 
+
 MASTER=`head -1 $cfg | awk '{print $2}'`
 
 #get file from remote host via scp
